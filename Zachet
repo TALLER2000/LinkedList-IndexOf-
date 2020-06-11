@@ -1,0 +1,187 @@
+using System;
+using System.Collections.Generic;
+
+namespace Linkedlist
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var lst = new Llist();
+
+            lst.AddFirst(0);
+            lst.AddLast(1);
+            lst.AddLast(2);
+            lst.AddLast(3);
+            lst.AddLast(4);
+            lst.AddLast(5);
+            lst.RemoveLast();
+            lst.RemoveFirst();
+            //lst[0] = 5;
+            //lst.AddFirst(0);
+            //lst.Insert(2, 6);
+            //lst.Remove(2);
+
+            //Console.WriteLine(lst.head.value);
+            //Console.WriteLine(lst.head.next.value);
+            //Console.WriteLine(lst.head.next.next.value);
+            for (int i = 0; i != lst.Count; i++)
+            {
+                Console.WriteLine(lst[i]);
+            }
+            Console.WriteLine("H");
+
+        }
+    }
+    class Llist
+    {
+        public Node head;
+        public int Count;
+        public Llist()
+        {
+
+        }
+        public void AddLast(int x)
+        {
+            var toAdd = new Node(x);
+            if (head == null)
+            {
+                head = toAdd;
+            }
+            else
+            {
+                Node current = head;
+                while (current.next != null)
+                {
+                    current = current.next;
+
+                }
+                current.next = toAdd;
+            }
+            Count++;
+        }
+        public int this[int index]
+        {
+            get
+            {
+                Node current = head;
+                for (int i = 0; i != index && current != null; i++)
+                {
+                    current = current.next;
+                }
+                return current.value;
+            }
+            set
+            {
+                Node current = head;
+                for (int i = 0; i != index && current != null; i++)
+                    current = current.next;
+                current.value = value;
+            }
+        }
+        public void AddFirst(int x)
+        {
+            var toAdd = new Node(x);
+            toAdd.next = head;
+            head = toAdd;
+            Count++;
+        }
+        public void Clear()
+        {
+            head = null;
+            Count = 0;
+        }
+        public void Insert(int index, int x)
+        {
+            var toAdd = new Node(x);
+            if (head == null)
+            {
+                head = toAdd;
+                Count++;
+            }
+            else
+            {
+                if (index == 0)
+                {
+                    AddFirst(x);
+                }
+                else
+                {
+                    Node current = head;
+                    Node prev = head;
+                    for (int i = 0; i < index; i++)
+                    {
+                        current = current.next;
+                        prev = current;
+                    }
+                    prev.next = toAdd;
+                    toAdd.next = current;
+                    Count++;
+                }
+            }
+        }
+        public void Remove(int index)
+        {
+            if (head != null)
+            {
+
+                if (index == 0)
+                {
+                    head = head.next;
+                    Count--;
+                }
+                else if (index < Count - 1)
+                {
+                    Node current = head;
+                    for (int i = 0; i < index - 1 && current != null; i++)
+                        current = current.next;
+                    current.next = current.next.next;
+                    Count--;
+                }
+            }
+        }
+        public void RemoveFirst()
+        {
+            Node current = head;
+            if (head != null)
+            {
+                head = head.next;
+                Count--;
+            }
+            
+        }
+        public void RemoveLast()
+        {
+            Node current = head;
+            if (head == null)
+            {
+                Remove(Convert.ToInt32(head));
+            }
+            Count--;
+        }
+    }
+    public static class Extencion
+    {
+        public static int IndexOf<T>(this LinkedList<T> list, T find)
+        {
+            int cou = -1;
+            foreach (var iter in list)
+            {
+                ++cou;
+
+                if (iter.Equals(find))
+                    break;
+            }
+            return cou;
+        }
+    }
+    class Node
+    {
+        public int value;
+        public Node next;
+        public Node(int x)
+        {
+            value = x;
+        }
+    }
+}
